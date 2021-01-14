@@ -26,7 +26,7 @@ const Login = ({history}) => {
             dispatch({
                 type: 'LOGGED_IN_USER',
                 payload: {
-                  name: user.email,
+                  email: user.email,
                   token: idTokenResult.token,
                 },
               });
@@ -48,7 +48,7 @@ const googleLogin = async () => {
         dispatch({
             type: 'LOGGED_IN_USER',
             payload: {
-              name: user.email,
+              email: user.email,
               token: idTokenResult.token,
             },
           });
