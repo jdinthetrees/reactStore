@@ -44,7 +44,7 @@ const Login = ({history}) => {
                     },
                 });
             })
-            .catch();
+            .catch(err => console.log(err));
 
             history.push('/');
         } catch (error) {
@@ -74,7 +74,7 @@ const googleLogin = async () => {
                 },
             });
         })
-        .catch();
+        .catch(err => console.log(err));
           history.push('/');
     })
     .catch((error) => {
