@@ -8,20 +8,16 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 const createOrUpdateUser = async (authtoken) => {
-    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`, {}, {
-        headers: {
-            authtoken: authtoken,
-
     return await axios.post(
-        `${process.env.REACT_APP_API}/create-or-update-user`, 
-        {}, {
-        headers: 
-        {
-            authtoken,
-
-        }
-    })
-}
+      `${process.env.REACT_APP_API}/create-or-update-user`,
+      {},
+      {
+        headers: {
+          authtoken,
+        },
+      }
+    );
+  };
 
 const Login = ({history}) => {
     
@@ -50,9 +46,6 @@ const Login = ({history}) => {
             .then((res) => console.log("Create or update res", res))
             .catch();
 
-            createOrUpdateUser(idTokenResult.token).
-            then((res) => console.log('create or update response', res))
-            .catch()
 
             // dispatch({
             //     type: 'LOGGED_IN_USER',

@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const {ObjectId} = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
-    name: String;
+    name: String,
     email: {
         type: String,
-        required: true,.
+        required: true,
         index: true,
     },
     role: {
