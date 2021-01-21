@@ -14,8 +14,10 @@ import RegisterComplete from './pages/auth/RegisterComplete';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import History from './pages/user/History';
 import UserRoute from './components/routes/UserRoute';
+import AdminRoute from './components/routes/AdminRoute';
 import Password from './pages/user/Password';
 import Wishlist from './pages/user/Wishlist';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 import {auth} from './firebase';
 import {useDispatch} from 'react-redux';
@@ -27,6 +29,7 @@ import {currentUser} from './functions/auth';
 const App = () => {
 
 const dispatch = useDispatch();
+
 
 //to check firebase auth state
 useEffect(() => {
@@ -52,7 +55,7 @@ useEffect(() => {
   });
   //cleanup
   return() => unsubscribe();
-}, []);
+}, [dispatch]);
     
   return (
    <>
@@ -68,6 +71,7 @@ useEffect(() => {
       <UserRoute exact path="/user/history" component ={History} />
       <UserRoute exact path="/user/password" component ={Password} />
       <UserRoute exact path="/user/wishlist" component ={Wishlist} />
+      <AdminRoute exact path="/admin/dashboard" component ={AdminDashboard} />
      </Switch>
    </>
   );
