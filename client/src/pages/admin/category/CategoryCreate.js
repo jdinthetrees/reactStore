@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import {
   createCategory,
   getCategories,
-  removeCategories,
   removeCategory,
 } from "../../../functions/category";
 import {Link} from 'react-router-dom';
@@ -38,7 +37,7 @@ const CategoryCreate = () => {
     .catch(err => {
         console.log(err)
         setLoading(false)
-        if(err.response.status === 400) toast.error(err.reponse.data)
+        if(err.response.status === 400) toast.error(err.response.data)
     })
   };
 
@@ -56,7 +55,7 @@ const CategoryCreate = () => {
         .catch(err => {
             if(err.response.status === 400) {
                 setLoading(false);
-                toast.error(err.reponse.data);
+                toast.error(err.response.data);
             }
            
         })

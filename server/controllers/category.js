@@ -31,9 +31,10 @@ exports.update = async (req, res) => {
         const updated = await Category.findOneAndUpdate(
             {slug: req.params.slug}, 
             {name, slug: slugify(name)}, 
+            // {useFindAndModify: false},
             {new: true}
             );
-            res.json(update);
+            res.json(updated);   
         } catch(err) {
             res.status(400).send('Category Update failed');
         }
