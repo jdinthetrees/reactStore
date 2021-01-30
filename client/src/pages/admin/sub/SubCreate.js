@@ -2,26 +2,25 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import {
-  createCategory,
-  getCategories,
-  removeCategory,
-} from "../../../functions/category";
+import { createSub, getSub, removeSub, getSubs } from "../../../functions/sub";
 import { Link } from "react-router-dom";
+import { getCategories } from "../../../functions/category";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 
-const CategoryCreate = () => {
+const SubCreate = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [categories, setCategories] = useState([]);
-  
+  const [category, setCategory] = useState("");
+//   const [subs, setSubs] = useState([]);
+
   //step 1 whenever user sets keyword for query set it in state
-const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     loadCategories();
@@ -33,13 +32,12 @@ const [keyword, setKeyword] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    createCategory({ name }, user.token)
+    createSub({ name, parent: category }, user.token)
       .then((res) => {
         //console.log(res)
         setLoading(false);
         setName("");
         toast.success(`"${res.data.name}" is created`);
-        loadCategories();
       })
       .catch((err) => {
         console.log(err);
@@ -53,11 +51,10 @@ const [keyword, setKeyword] = useState("");
     // console.log(answer, slug);
     if (window.confirm("Delete?")) {
       setLoading(true);
-      removeCategory(slug, user.token)
+      removeSub(slug, user.token)
         .then((res) => {
           setLoading(false);
           toast.error(`${res.data.name} deleted`);
-          loadCategories();
         })
         .catch((err) => {
           if (err.response.status === 400) {
@@ -81,20 +78,37 @@ const [keyword, setKeyword] = useState("");
           {loading ? (
             <h4 className="text-danger">Loading...</h4>
           ) : (
-            <h4>Create Category</h4>
+            <h4>Create sub category</h4>
           )}
+
+          <div className="form-group">
+            <label>Parent Category</label>
+            <select name="category" className="form-control" 
+            onChange={(e) => setCategory(e.target.value)}
+            >
+             <option>Please Select</option>
+              {categories.length > 0 &&
+                categories.map((c) => 
+                  <option key={c._id} value={c._id}>
+                    {c.name}
+                  </option>
+                )}
+            </select>
+          </div>
+
+          {JSON.stringify(category)}
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}
           />
-          
+
           {/* step 2 and step 3 moved to this component */}
-          <LocalSearch keyword={keyword} setKeyword={setKeyword}/>
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
           <hr />
           {/* step 5 implement seached in MAP */}
-          {categories.filter(searched(keyword)).map((c) => (
+          {/* {categories.filter(searched(keyword)).map((c) => (
             <div className="alert alert-secondary" key={c._id}>
               {c.name}{" "}
               <span
@@ -109,11 +123,11 @@ const [keyword, setKeyword] = useState("");
                 </span>
               </Link>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>
   );
 };
 
-export default CategoryCreate;
+export default SubCreate;
