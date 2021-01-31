@@ -5,19 +5,19 @@ import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
 
 const initialState = {
-  title: "",
-  description: "",
-  price: "",
+  title: "Fuji Xt-3",
+  description: "test camera",
+  price: "500",
   categories: [],
   category: "",
   subs: "",
-  shipping: "",
-  quantity: "",
+  shipping: "Yes",
+  quantity: "50",
   images: [],
   colors: ["black", "silver", "white", "gray"],
   brands: ["Fuji", "Nikon", "Sony", "Canon", "Black Magic", "Panasonic"],
-  color: "",
-  brand: "",
+  color: "black",
+  brand: "Fuji",
 };
 
 const ProductCreate = () => {
@@ -48,10 +48,13 @@ const ProductCreate = () => {
     createProduct(values, user.token)
       .then((res) => {
         console.log(res);
+        window.alert(`"${res.data.title}" is created`);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status === 400) toast.error(err.response.data);
+        // if (err.response.status === 400) toast.error(err.response.data);
+        toast.error(err.response.data.err);
       });
   };
 
