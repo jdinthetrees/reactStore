@@ -17,17 +17,21 @@ const SubCreate = () => {
 
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
-//   const [subs, setSubs] = useState([]);
+  const [subs, setSubs] = useState([]);
 
   //step 1 whenever user sets keyword for query set it in state
   const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     loadCategories();
+    loadSubs();
   }, []);
 
   const loadCategories = () =>
     getCategories().then((c) => setCategories(c.data));
+
+  const loadSubs = () =>
+    getSubs().then((c) => setSubs(c.data));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,6 +42,7 @@ const SubCreate = () => {
         setLoading(false);
         setName("");
         toast.success(`"${res.data.name}" is created`);
+        loadSubs();
       })
       .catch((err) => {
         console.log(err);
@@ -55,6 +60,7 @@ const SubCreate = () => {
         .then((res) => {
           setLoading(false);
           toast.error(`${res.data.name} deleted`);
+          loadSubs();
         })
         .catch((err) => {
           if (err.response.status === 400) {
@@ -96,7 +102,7 @@ const SubCreate = () => {
             </select>
           </div>
 
-          {JSON.stringify(category)}
+          
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}
@@ -108,22 +114,22 @@ const SubCreate = () => {
 
           <hr />
           {/* step 5 implement seached in MAP */}
-          {/* {categories.filter(searched(keyword)).map((c) => (
-            <div className="alert alert-secondary" key={c._id}>
-              {c.name}{" "}
+          {subs.filter(searched(keyword)).map((s) => (
+            <div className="alert alert-secondary" key={s._id}>
+              {s.name}{" "}
               <span
-                onClick={() => handleRemove(c.slug)}
+                onClick={() => handleRemove(s.slug)}
                 className="btn btn-sm float-right"
               >
                 <DeleteOutlined className="text-danger" />
               </span>{" "}
-              <Link to={`/admin/category/${c.slug}`}>
+              <Link to={`/admin/sub/${s.slug}`}>
                 <span className="btn btn-sm float-right">
                   <EditOutlined className="warning" />
                 </span>
               </Link>
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
     </div>
