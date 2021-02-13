@@ -1,23 +1,23 @@
 import React from "react";
-import {Select} from 'antd';
+import { Select } from "antd";
 
-
-const {Option} = Select;
+const { Option } = Select;
 const ProductUpdateForm = ({
   handleSubmit,
   handleChange,
   setValues,
   values,
-//   handleCategoryChange,
-//   subOptions,
-//   showSub,
+    handleCategoryChange,
+    categories,
+    subOptions,
+  //   showSub,
 }) => {
   //destructure
   const {
     title,
     description,
     price,
-    categories,
+    // categories,
     category,
     subs,
     shipping,
@@ -66,9 +66,9 @@ const ProductUpdateForm = ({
         <select
           name="shipping"
           className="form-control"
+          value={shipping === "Yes" ? "Yes" : "No"}
           onChange={handleChange}
         >
-          <option>Please select</option>
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
@@ -85,8 +85,12 @@ const ProductUpdateForm = ({
       </div>
       <div className="form-group">
         <label>Color</label>
-        <select name="color" className="form-control" onChange={handleChange}>
-          <option>Please select</option>
+        <select
+          value={color}
+          name="color"
+          className="form-control"
+          onChange={handleChange}
+        >
           {colors.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -96,8 +100,12 @@ const ProductUpdateForm = ({
       </div>
       <div className="form-group">
         <label>Brand</label>
-        <select name="brand" className="form-control" onChange={handleChange}>
-          <option>Please select</option>
+        <select
+          value={brand}
+          name="brand"
+          className="form-control"
+          onChange={handleChange}
+        >
           {brands.map((b) => (
             <option key={b} value={b}>
               {b}
@@ -105,7 +113,7 @@ const ProductUpdateForm = ({
           ))}
         </select>
       </div>
-{/* 
+      
       <div className="form-group">
         <label>Category</label>
         <select
@@ -113,7 +121,7 @@ const ProductUpdateForm = ({
           className="form-control"
           onChange={handleCategoryChange}
         >
-          <option>Please Select</option>
+          <option>{category ? category.name : 'Please select'}</option>
           {categories.length > 0 &&
             categories.map((c) => (
               <option key={c._id} value={c._id}>
@@ -121,8 +129,8 @@ const ProductUpdateForm = ({
               </option>
             ))}
         </select>
-      </div> */}
-        {/* {showSub && <div>
+      </div>
+      {/* {showSub && <div>
         <label>Sub Categories</label>
         <Select
         mode="multiple"
@@ -139,7 +147,7 @@ const ProductUpdateForm = ({
 
         </Select>
         </div>} */}
-        <br/>
+      <br />
       <button className="btn btn-outline-info">Save</button>
     </form>
   );
