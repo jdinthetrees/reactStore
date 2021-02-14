@@ -7,9 +7,12 @@ const ProductUpdateForm = ({
   handleChange,
   setValues,
   values,
-    handleCategoryChange,
-    categories,
-    subOptions,
+  handleCategoryChange,
+  categories,
+  subOptions,
+  arrayOfSubs,
+  setArrayOfSubs,
+  selectedCategory,
   //   showSub,
 }) => {
   //destructure
@@ -113,15 +116,16 @@ const ProductUpdateForm = ({
           ))}
         </select>
       </div>
-      
+
       <div className="form-group">
         <label>Category</label>
         <select
           name="category"
           className="form-control"
           onChange={handleCategoryChange}
+          value={selectedCategory ? selectedCategory : category._id}
         >
-          <option>{category ? category.name : 'Please select'}</option>
+
           {categories.length > 0 &&
             categories.map((c) => (
               <option key={c._id} value={c._id}>
@@ -130,23 +134,25 @@ const ProductUpdateForm = ({
             ))}
         </select>
       </div>
-      {/* {showSub && <div>
+
+      <div>
         <label>Sub Categories</label>
         <Select
-        mode="multiple"
-        style={{width: '100%'}}
-        placeholder="Please Select"
-        value={subs}
-        onChange={value => setValues({...values, subs: value})}
+          mode="multiple"
+          style={{ width: "100%" }}
+          placeholder="Please Select"
+          value={arrayOfSubs}
+          onChange={(value) => setArrayOfSubs(value)}
         >
-
-            {subOptions.length && 
-            subOptions.map((s) => <Option key={s._id} value={s._id}>
+          {subOptions.length &&
+            subOptions.map((s) => (
+              <Option key={s._id} value={s._id}>
                 {s.name}
-                </Option>)}
-
+              </Option>
+            ))}
         </Select>
-        </div>} */}
+      </div>
+      
       <br />
       <button className="btn btn-outline-info">Save</button>
     </form>
