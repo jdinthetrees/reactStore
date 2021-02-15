@@ -23,11 +23,11 @@ export const getProduct = async (slug) =>
 
 
 
-// export const updateCategory = async (slug, category, authtoken) =>
-//   await axios.put(`${process.env.REACT_APP_API}/category/${slug}`, category, {
-//     headers: {
-//       authtoken,
-//     },
-//   });
+export const updateProduct = async (slug, product, authtoken) =>
+  await axios.put(`${process.env.REACT_APP_API}/product/${slug}`, product, {
+    headers: {
+      authtoken,
+    },
+  });
 
 

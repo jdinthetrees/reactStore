@@ -40,12 +40,12 @@ exports.remove = async (req, res) => {
 };
 
 exports.read = async (req, res) => {
-  const product = await Product.findOne({slug: req.params.slug})
-  .populate("category")
-  .populate("subs")
-  .exec();
+  const product = await Product.findOne({ slug: req.params.slug })
+    .populate("category")
+    .populate("subs")
+    .exec();
   res.json(product);
-}
+};
 
 // exports.list = async (req, res) => {
 //     //
@@ -53,18 +53,24 @@ exports.read = async (req, res) => {
 //     res.json(await Category.find({}).sort({createdAt: -1}).exec());
 // };
 
-// exports.update = async (req, res) => {
-//     //
-//     const {name} = req.body;
-//     try {
-//         const updated = await Category.findOneAndUpdate(
-//             {slug: req.params.slug},
-//             {name, slug: slugify(name)},
-//             // {useFindAndModify: false},
-//             {new: true}
-//             );
-//             res.json(updated);
-//         } catch(err) {
-//             res.status(400).send('Category Update failed');
-//         }
-//     };
+exports.update = async (req, res) => {
+  //
+  const { name } = req.body;
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
+    }
+    const updated = await Product.findOneAndUpdate(
+      { slug: req.params.slug },
+      req.body,
+      {new: true}
+    ).exec();
+    res.json(updated);
+  } catch (err) {
+    console.log("Product update error ----->", err);
+    // return res.status(400).send("Product Update failed");
+    res.status(400).json({
+      err: err.message,
+    });
+  }
+};
