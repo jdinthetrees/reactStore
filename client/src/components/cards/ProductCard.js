@@ -1,7 +1,7 @@
 import React from "react";
 import { Card} from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import camera from "../../images/kisspng-camera-photography-icon-vector-color-camera-design-5aa502dab59d18.8110978415207636107439.png";
+import Camera from "../../images/default.png";
 import { Link } from "react-router-dom";
 
 
@@ -16,7 +16,7 @@ return (
   <Card
     cover={
       <img
-        src={images && images.length ? images[0].url : camera}
+        src={images && images.length ? images[0].url : Camera}
         style={{ height: "150px", objectFit: "cover" }}
         className="m-2"
       />

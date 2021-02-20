@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "antd";
-import camera from "../../images/kisspng-camera-photography-icon-vector-color-camera-design-5aa502dab59d18.8110978415207636107439.png";
+import camera from "../../images/default.png";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 const { Meta } = Card;
