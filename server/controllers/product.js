@@ -63,7 +63,7 @@ exports.update = async (req, res) => {
     const updated = await Product.findOneAndUpdate(
       { slug: req.params.slug },
       req.body,
-      {new: true}
+      { new: true }
     ).exec();
     res.json(updated);
   } catch (err) {
@@ -74,7 +74,6 @@ exports.update = async (req, res) => {
     });
   }
 };
-
 
 //without pagination
 // exports.list = async (req, res) => {
@@ -94,34 +93,63 @@ exports.update = async (req, res) => {
 //   }
 // }
 
-
 //with pagination
 exports.list = async (req, res) => {
   console.log(req.body);
   try {
     //createAt/updatedAt, desc/asc, 3
-    const {sort, order, page} = req.body
-    const currentPage = page || 1
-    const perPage = 3
+    const { sort, order, page } = req.body;
+    const currentPage = page || 1;
+    const perPage = 3;
 
     const products = await Product.find({})
-    .skip((currentPage -1) * perPage)
-    .populate('category')
-    .populate('subs')
-    .sort([[sort, order]])
-    .limit(perPage)
-    .exec();
+      .skip((currentPage - 1) * perPage)
+      .populate("category")
+      .populate("subs")
+      .sort([[sort, order]])
+      .limit(perPage)
+      .exec();
 
-    res.json(products)
+    res.json(products);
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
-
-
-
+};
 
 exports.productsCount = async (req, res) => {
   let total = await Product.find({}).estimatedDocumentCount().exec();
   res.json(total);
-}
+};
+
+exports.productStar = async (req, res) => {
+  const product = await Product.findById(req.params.productID).exec();
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const { star } = req.body;
+  //who is updating
+  //check if currently logged in user has already added rating to product?
+  let existingRatingObject = product.ratings.find(
+    (element) => element.postedBy == user._id
+  );
+
+  //if user hasnt left rating, push rating to ratings array
+  if (existingRatingObject === undefined) {
+    let ratingAdded = await Product.findByIdAndUpdate(
+      product._id,
+      {
+        $push: { ratings: { star: star, postedBy: user._id } },
+      },
+      { new: true }
+    ).exec();
+    console.log("ratingAdded", ratingAdded);
+    res.json(ratingAdded);
+  } else {
+    // user already left rating, update it
+    const ratingUpdated = await Product.updateOne({
+      ratings: { $elementMatch: existingRatingObject },
+    }, {$set: {"ratings.$.star": star}},
+    { new: true }
+    ).exec();
+    console.log("ratingUpdated", ratingUpdated);
+    res.json(ratingUpdated);
+  }
+};

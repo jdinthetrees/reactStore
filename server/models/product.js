@@ -56,15 +56,15 @@ const productSchema = new mongoose.Schema({
         type:String,
         enum: ["Fuji", "Nikon", "Sony", "Canon", "Black Magic", "Panasonic"]
     },
-    // ratings: [
-    //     {
-    //         star: Number,
-    //         postedBy: {
-    //             type: ObjectId,
-    //             ref: "User",
-    //         }
-    //     }
-    // ]
+    ratings: [
+        {
+            star: Number,
+            postedBy: {
+                type: ObjectId,
+                ref: "User",
+            }
+        }
+    ]
 
 }, {timestamps: true}
 
