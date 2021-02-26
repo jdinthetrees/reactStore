@@ -9,11 +9,12 @@ import Camera from "../../images/default.png";
 import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
 import RatingModal from "../modal/RatingModal";
+import { showAverage } from "../../functions/rating";
 
 const { TabPane } = Tabs;
 
 //this is children compoinent of product page
-const SingleProduct = ({ product, onStarClick, star}) => {
+const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product;
   return (
     <>
@@ -38,14 +39,16 @@ const SingleProduct = ({ product, onStarClick, star}) => {
 
       <div className="col-md-5">
         <h1 className="bg-info p-3">{title}</h1>
-
+        {product && product.ratings && product.ratings.length > 0
+          ? showAverage(product)
+          : <div className="text-center pt-1 pb-3">"No Rating Yet"</div>}
         <Card
           actions={[
             <>
               <ShoppingCartOutlined className="text-success" /> Add to Cart
             </>,
             <Link to="/">
-              <HeartOutlined className="text-info" /> <br/>
+              <HeartOutlined className="text-info" /> <br />
               Add to Wishlist
             </Link>,
             <RatingModal>
