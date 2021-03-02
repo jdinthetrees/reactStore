@@ -25,7 +25,8 @@ import SubUpdate from './pages/admin/sub/SubUpdate';
 import ProductCreate from './pages/admin/product/ProductCreate';
 import AllProducts from './pages/admin/product/AllProducts';
 import ProductUpdate from './pages/admin/product/ProductUpdate';
-import Product from './pages/Product'
+import Product from './pages/Product';
+import CategoryHome from "./pages/category/CategoryHome"
 
 import {auth} from './firebase';
 import {useDispatch} from 'react-redux';
@@ -88,6 +89,7 @@ useEffect(() => {
       <AdminRoute exact path="/admin/products" component ={AllProducts} />
       <AdminRoute exact path="/admin/product/:slug" component ={ProductUpdate} />
       <Route exact path="/product/:slug" component ={Product} />
+      <Route exact path="/category/:slug" component ={CategoryHome} />
      </Switch>
    </>
   );
