@@ -1,43 +1,53 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 
-import {Menu} from 'antd';
+import { Menu } from "antd";
 
-import { AppstoreOutlined, UserOutlined, UserAddOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  UserOutlined,
+  UserAddOutlined,
+  SettingOutlined,
+  LogoutOutlined,
+  ShoppingOutlined,
+} from "@ant-design/icons";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 //required to implement logout
-import firebase from 'firebase';
-import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
-import Search from '../forms/Search';
+import firebase from "firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Search from "../forms/Search";
 
 const { SubMenu, Item } = Menu;
 
 const Header = () => {
-    const [current, setCurrent] = useState('home');
+  const [current, setCurrent] = useState("home");
 
-    let dispatch = useDispatch();
-    let {user} = useSelector((state) => ({...state}));
-    let history = useHistory();
+  let dispatch = useDispatch();
+  let { user } = useSelector((state) => ({ ...state }));
+  let history = useHistory();
 
-    const handleClick = (e) => {
-        setCurrent(e.key);
-    }
-    //to log user out of app and firesbase entirely, user is not in state
-    const logout = () => {
-        firebase.auth().signOut();
-        dispatch({
-            type: "LOGOUT",
-            payload: null,
-        });
-        history.push("/login");
-    };
+  const handleClick = (e) => {
+    setCurrent(e.key);
+  };
+  //to log user out of app and firesbase entirely, user is not in state
+  const logout = () => {
+    firebase.auth().signOut();
+    dispatch({
+      type: "LOGOUT",
+      payload: null,
+    });
+    history.push("/login");
+  };
 
-
-return (
+  return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
+      </Item>
+
+      <Item key="shop" icon={<ShoppingOutlined />}>
+        <Link to="/shop">Shop</Link>
       </Item>
 
       {!user && (
@@ -58,19 +68,18 @@ return (
           title={user.email && user.email.split("@")[0]}
           className="float-right"
         >
-          {user && user.role==='subscriber' && (
-          <Item>
-            <Link to="/user/history">Dashboard</Link>
+          {user && user.role === "subscriber" && (
+            <Item>
+              <Link to="/user/history">Dashboard</Link>
             </Item>
-            )}
+          )}
 
-          {user && user.role==='admin' && (
-          <Item>
-            <Link to="/admin/dashboard">Dashboard</Link>
+          {user && user.role === "admin" && (
+            <Item>
+              <Link to="/admin/dashboard">Dashboard</Link>
             </Item>
-            )}
-          
-          
+          )}
+
           <Item icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>
