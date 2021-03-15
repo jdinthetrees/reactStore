@@ -203,7 +203,7 @@ const handlePrice = async (req, res, price) => {
   }
 }
 
-const handleCategory = async(res, res, category) => {
+const handleCategory = async(req, res, category) => {
   try {
     let products = await Product.find({category})
     .populate('category', '_id name')
