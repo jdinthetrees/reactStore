@@ -245,9 +245,19 @@ const handleStar = (req, res, stars) => {
   })
 };
 
+const handleSub = async (req, res, sub) => {
+  const products= await Product.find({subs: sub})
+  .populate('category', '_id name')
+  .populate('subs', '_id name')
+  .populate('postedBy', '_id name')
+  .exec();
+
+  res.json(products);
+}
+
 //search / filter
 exports.searchFilters = async (req, res) => {
-  const {query, price, category, stars} = req.body
+  const {query, price, category, stars, sub} = req.body
 
   if(query) {
     console.log('query', query)
@@ -268,5 +278,9 @@ exports.searchFilters = async (req, res) => {
   if(stars) {
     console.log("stars------> ", stars);
     await handleStar(req, res, stars);
+  }
+  if(sub) {
+    console.log("sub------> ", sub);
+    await handleSub(req, res, sub);
   }
 };
