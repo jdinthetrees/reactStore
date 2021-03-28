@@ -14,11 +14,11 @@ const app = express();
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFineAndModify: true,
+    useFindAndModify: true,
     // useUnifiedTopology: true, 
   })
   .then()
-  .catch((err) => console.log(`DB CONNECTION ERR`));
+  .catch((err) => console.log(`DB CONNECTION ERR`,err));
 
 //middlewares
 app.use(morgan("dev"));

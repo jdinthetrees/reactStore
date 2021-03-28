@@ -45,7 +45,7 @@ const Product = ({ match }) => {
   };
 
   return (
-    <div className="containter-fluid">
+    <div className="container-fluid">
       <div className="row pt-4">
         <SingleProduct
           product={product}
